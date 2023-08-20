@@ -1,9 +1,12 @@
 package com.ahmetakkoyun.mapper;
 
 import com.ahmetakkoyun.dto.request.UserSaveRequestDto;
+import com.ahmetakkoyun.dto.request.UserUpdateRequestDto;
 import com.ahmetakkoyun.dto.response.UserInfoResponseDto;
 import com.ahmetakkoyun.repository.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -17,7 +20,10 @@ public interface IUserMapper {
 
     User toUser(UserSaveRequestDto dto);
 
-    User updateToUser(Optional<User> user);
+    User updateToUser(UserUpdateRequestDto dto);
+
+    @Mapping(target = "id", ignore = true)
+    void updateUserFromDto(UserUpdateRequestDto dto, @MappingTarget User user);
 
 
     UserInfoResponseDto toUserResponseDto(User user);

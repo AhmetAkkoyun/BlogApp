@@ -1,6 +1,7 @@
 package com.ahmetakkoyun.controller;
 
 import com.ahmetakkoyun.dto.request.UserSaveRequestDto;
+import com.ahmetakkoyun.dto.request.UserUpdateRequestDto;
 import com.ahmetakkoyun.repository.entity.User;
 import com.ahmetakkoyun.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,19 +54,16 @@ public class UserController {
         }
     }
 
-
-
-
-
     // Belirli bir kullanıcının bilgilerini günceller.
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateById(Long userId){
-        try{
-            Optional<User> user = userService.findById(userId);
-            ResponseEntity.status(HttpStatus.FOUND).body("Kullanıcı bulundu: "+user.get().getFirstName()+" "+user.get().getLastName());
-            return ResponseEntity.ok(userService.updateById(user));
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı! "+e.getMessage());
+    public ResponseEntity<?> updateUser(Long id, @RequestBody UserUpdateRequestDto updatedUser) {
+        try {
+            User savedUser = userService.updateUser(id, updatedUser);
+            return new ResponseEntity(savedUser, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity("Kullanıcı bulunamadı", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity("Kullanıcı güncellenemedi", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

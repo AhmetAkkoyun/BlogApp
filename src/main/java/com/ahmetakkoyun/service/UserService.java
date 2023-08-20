@@ -1,6 +1,7 @@
 package com.ahmetakkoyun.service;
 
 import com.ahmetakkoyun.dto.request.UserSaveRequestDto;
+import com.ahmetakkoyun.dto.request.UserUpdateRequestDto;
 import com.ahmetakkoyun.mapper.IUserMapper;
 import com.ahmetakkoyun.repository.IUserRepository;
 import com.ahmetakkoyun.repository.entity.User;
@@ -29,14 +30,19 @@ public class UserService {
         User user = IUserMapper.INSTANCE.toUser(dto);
         return userRepository.save(user);
     }
-    @Transactional
-    public User updateById(Optional<User> oldUser){
-        User newUser = IUserMapper.INSTANCE.updateToUser(oldUser);
-        return userRepository.save(newUser);
+
+    public User updateUser(Long id, UserUpdateRequestDto updatedUser) {
+        User existingUser = (userRepository.findById(id)).get();
+        IUserMapper.INSTANCE.updateUserFromDto(updatedUser, existingUser);
+        return userRepository.save(existingUser);
     }
 
     public void deleteById(Long userId){
         userRepository.deleteById(userId);
     }
+
+
+
+
 
 }
