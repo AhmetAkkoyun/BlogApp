@@ -1,6 +1,7 @@
 package com.ahmetakkoyun.service;
 
 import com.ahmetakkoyun.dto.request.PostSaveRequestDto;
+import com.ahmetakkoyun.dto.request.PostUpdateRequestDto;
 import com.ahmetakkoyun.mapper.IPostMapper;
 import com.ahmetakkoyun.repository.IPostRepository;
 import com.ahmetakkoyun.repository.entity.Post;
@@ -29,9 +30,11 @@ public class PostService {
         return postRepository.save(newPost);
     }
 
-//    public Post updateById(Long postId){
-//        return postRepository.updateById(postId);
-//    }
+    public Post updateById(Long id, PostUpdateRequestDto updatedPost) {
+        Post existingPost = (postRepository.findById(id)).get();
+        IPostMapper.INSTANCE.updatePostFromDto(updatedPost, existingPost);
+        return postRepository.save(existingPost);
+    }
 
     public void deleteById(Long postId){
         postRepository.deleteById(postId);

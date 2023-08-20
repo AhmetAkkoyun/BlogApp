@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostSaveRequestDto {
-    private String title;
-    private String content;
+public class CategoryUpdateRequestDto {
+    private String name;
+    private String description;
 }

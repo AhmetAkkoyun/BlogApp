@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,9 +55,9 @@ public class UserController {
 
     // Belirli bir kullanıcının bilgilerini günceller.
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(Long id, @RequestBody UserUpdateRequestDto updatedUser) {
+    public ResponseEntity<?> updateById(Long id, @RequestBody UserUpdateRequestDto updatedUser) {
         try {
-            User savedUser = userService.updateUser(id, updatedUser);
+            User savedUser = userService.updateById(id, updatedUser);
             return new ResponseEntity(savedUser, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity("Kullanıcı bulunamadı", HttpStatus.NOT_FOUND);
@@ -77,5 +76,4 @@ public class UserController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: "+e.getMessage());
         }
     }
-
 }

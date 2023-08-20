@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface IPostRepository extends JpaRepository<Post, Long> {
 
-
     List<Post> findPostsByUserId(Long userId);
 
     List<Post> findPostsByCategoryId(Long categoryId);
@@ -24,4 +23,5 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
             "WHERE c.name=:x"
     ,nativeQuery = true)
     List<Post> getPostsByCategoryName(@Param("x") String categoryName);
+
 }

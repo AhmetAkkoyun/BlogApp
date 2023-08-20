@@ -12,7 +12,6 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @Builder
 public class UserSaveRequestDto {
-
     @Column(length = 50)
     private String firstName;
     @Column(length = 50)
@@ -21,5 +20,4 @@ public class UserSaveRequestDto {
     private String email;
     @Column(length = 32)
     private String password;
-
 }

@@ -1,6 +1,7 @@
 package com.ahmetakkoyun.service;
 
 import com.ahmetakkoyun.dto.request.CategorySaveRequestDto;
+import com.ahmetakkoyun.dto.request.CategoryUpdateRequestDto;
 import com.ahmetakkoyun.mapper.ICategoryMapper;
 import com.ahmetakkoyun.repository.ICategoryRepository;
 import com.ahmetakkoyun.repository.entity.Category;
@@ -29,10 +30,11 @@ public class CategoryService {
         return categoryRepository.save(newCategory);
     }
 
-
-//    public Categories updateById(Long categoryId){
-//        return categoryRepository.updateById(categoryId);
-//    }
+    public Category updateById(Long id, CategoryUpdateRequestDto updatedCategory) {
+        Category existingCategory = (categoryRepository.findById(id)).get();
+        ICategoryMapper.INSTANCE.updateCategoryFromDto(updatedCategory, existingCategory);
+        return categoryRepository.save(existingCategory);
+    }
 
     public void deleteById(Long categoryId){
         categoryRepository.deleteById(categoryId);

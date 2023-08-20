@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-20T21:08:15+0300",
+    date = "2023-08-20T21:52:41+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 19.0.2 (Amazon.com Inc.)"
 )
 @Component
@@ -19,22 +19,6 @@ public class IUserMapperImpl implements IUserMapper {
 
     @Override
     public User toUser(UserSaveRequestDto dto) {
-        if ( dto == null ) {
-            return null;
-        }
-
-        User.UserBuilder user = User.builder();
-
-        user.firstName( dto.getFirstName() );
-        user.lastName( dto.getLastName() );
-        user.email( dto.getEmail() );
-        user.password( dto.getPassword() );
-
-        return user.build();
-    }
-
-    @Override
-    public User updateToUser(UserUpdateRequestDto dto) {
         if ( dto == null ) {
             return null;
         }

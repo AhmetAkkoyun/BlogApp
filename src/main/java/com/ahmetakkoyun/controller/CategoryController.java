@@ -1,6 +1,7 @@
 package com.ahmetakkoyun.controller;
 
 import com.ahmetakkoyun.dto.request.CategorySaveRequestDto;
+import com.ahmetakkoyun.dto.request.CategoryUpdateRequestDto;
 import com.ahmetakkoyun.repository.entity.Category;
 import com.ahmetakkoyun.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,21 +53,18 @@ public class CategoryController {
         }
     }
 
-
-
-
-
-
     // Belirli bir kategorinin bilgilerini günceller.
-//    @PutMapping("/{categoryId}")
-//    public ResponseEntity<Category> updateById(Long categoryId){
-//        return ResponseEntity.ok(categoryService.updateById(categoryId));
-//    }
-
-
-
-
-
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<?> updateById(Long id, @RequestBody CategoryUpdateRequestDto updatedCategory) {
+        try {
+            Category savedCategory = categoryService.updateById(id, updatedCategory);
+            return new ResponseEntity(savedCategory, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity("Kategori bulunamadı", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity("Kategori güncellenemedi", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // Belirli bir kategoriyi siler.
     @DeleteMapping("/{categoryId}")
@@ -77,5 +76,4 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
         }
     }
-
 }

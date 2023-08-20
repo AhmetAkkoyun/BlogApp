@@ -1,16 +1,18 @@
 package com.ahmetakkoyun.controller;
 
-
 import java.util.List;
 import java.util.Optional;
 
 import com.ahmetakkoyun.dto.request.PostSaveRequestDto;
+import com.ahmetakkoyun.dto.request.PostUpdateRequestDto;
 import com.ahmetakkoyun.repository.entity.Post;
 import com.ahmetakkoyun.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityNotFoundException;
 
 import static com.ahmetakkoyun.constant.RestApiUrl.*;
 
@@ -52,19 +54,18 @@ public class PostController {
         }
     }
 
-
-
-
-
     // Belirli bir yazının bilgilerini günceller.
-//    @PutMapping("/{postId}")
-//    public Post updateById(Long postId){
-//        return postService.updateById(postId);
-//    }
-
-
-
-
+    @PutMapping("/{postId}")
+    public ResponseEntity<?> updateById(Long id, @RequestBody PostUpdateRequestDto updatedPost) {
+        try {
+            Post savedPost = postService.updateById(id, updatedPost);
+            return new ResponseEntity(savedPost, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity("Blog bulunamadı", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity("Blog güncellenemedi", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     // Belirli bir yazıyı siler.
     @DeleteMapping("/{postId}")
@@ -88,9 +89,6 @@ public class PostController {
     public List<Post> findPostByCategoryId(Long categoryId){
         return postService.findPostsByCategoryId(categoryId);
     }
-
-
-    // BU AŞAĞIDAKİ İKİSİNE TEKRAR BAK!!!!
 
     //  Belirli bir kelimeye göre yazıları arar.
     @GetMapping("/search")

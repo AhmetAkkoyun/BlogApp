@@ -11,7 +11,6 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IUserMapper {
@@ -20,15 +19,11 @@ public interface IUserMapper {
 
     User toUser(UserSaveRequestDto dto);
 
-    User updateToUser(UserUpdateRequestDto dto);
-
     @Mapping(target = "id", ignore = true)
     void updateUserFromDto(UserUpdateRequestDto dto, @MappingTarget User user);
-
 
     UserInfoResponseDto toUserResponseDto(User user);
 
     List<UserInfoResponseDto> toUserResponseDtos(List<User> userList);
-
 
 }

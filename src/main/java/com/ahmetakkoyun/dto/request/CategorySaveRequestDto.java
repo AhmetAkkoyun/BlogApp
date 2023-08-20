@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CategorySaveRequestDto {
-
-
     private String name;
     private String description;
-
 }

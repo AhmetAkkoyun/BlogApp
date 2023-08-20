@@ -32,4 +32,5 @@ public class Like {
 
     // yorumu beğenmek için
     private Long commentId;
+
 }
