@@ -8,6 +8,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface IUserMapper {
@@ -15,6 +16,8 @@ public interface IUserMapper {
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
     User toUser(UserSaveRequestDto dto);
+
+    User updateToUser(Optional<User> user);
 
 
     UserInfoResponseDto toUserResponseDto(User user);

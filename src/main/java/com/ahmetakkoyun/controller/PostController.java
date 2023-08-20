@@ -23,14 +23,23 @@ public class PostController {
 
     // Tüm yazıları listeler.
     @GetMapping
-    public ResponseEntity<List<Post>> findAll() {
-        return ResponseEntity.ok(postService.findAll());
+    public ResponseEntity<?> findAll() {
+        List<Post> postList = postService.findAll();
+        if (postList == null || postList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(postList);
     }
+
 
     // Belirli bir yazının detaylarını getirir.
     @GetMapping("/{postId}")
-    public ResponseEntity<Optional<Post>> findById(Long postId){
-        return ResponseEntity.ok(postService.findById(postId));
+    public ResponseEntity<?> findById(Long postId){
+        Optional<Post> post = postService.findById(postId);
+        if (post.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(post);
     }
 
     // Yeni bir yazı oluşturur.
@@ -43,16 +52,29 @@ public class PostController {
         }
     }
 
+
+
+
+
     // Belirli bir yazının bilgilerini günceller.
 //    @PutMapping("/{postId}")
 //    public Post updateById(Long postId){
 //        return postService.updateById(postId);
 //    }
 
+
+
+
+
     // Belirli bir yazıyı siler.
     @DeleteMapping("/{postId}")
-    public void deleteById(Long postId){
-        postService.deleteById(postId);
+    public ResponseEntity<?> deleteById(Long postId){
+        try {
+            postService.deleteById(postId);
+            return ResponseEntity.status(HttpStatus.OK).body(postId+" id numaralı blog içeriği başarıyla silindi.");
+        }catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: "+e.getMessage());
+        }
     }
 
     // Belirli bir kullanıcının yazılarını listeler.

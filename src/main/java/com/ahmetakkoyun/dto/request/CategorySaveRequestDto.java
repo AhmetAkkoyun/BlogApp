@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CategorySaveRequestDto {
 
+
     private String name;
     private String description;
 

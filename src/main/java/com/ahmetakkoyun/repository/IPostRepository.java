@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface IPostRepository extends JpaRepository<Post, Long> {
 
-//    Post updatePostById(Long id);
 
     List<Post> findPostsByUserId(Long userId);
 

@@ -7,6 +7,7 @@ import com.ahmetakkoyun.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +29,11 @@ public class UserService {
         User user = IUserMapper.INSTANCE.toUser(dto);
         return userRepository.save(user);
     }
-
-//    public Users updateById(Long userId){
-//        return userRepository.updateById(userId);
-//    }
+    @Transactional
+    public User updateById(Optional<User> oldUser){
+        User newUser = IUserMapper.INSTANCE.updateToUser(oldUser);
+        return userRepository.save(newUser);
+    }
 
     public void deleteById(Long userId){
         userRepository.deleteById(userId);

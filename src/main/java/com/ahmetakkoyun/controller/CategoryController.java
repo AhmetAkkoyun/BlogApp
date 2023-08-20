@@ -1,9 +1,7 @@
 package com.ahmetakkoyun.controller;
 
 import com.ahmetakkoyun.dto.request.CategorySaveRequestDto;
-import com.ahmetakkoyun.mapper.ICategoryMapper;
 import com.ahmetakkoyun.repository.entity.Category;
-import com.ahmetakkoyun.repository.entity.User;
 import com.ahmetakkoyun.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,14 +22,22 @@ public class CategoryController {
 
     // Tüm kategorileri listeler.
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        return ResponseEntity.ok(categoryService.findAll());
+    public ResponseEntity<?> findAll(){
+        List<Category> categoryList = categoryService.findAll();
+        if (categoryList==null || categoryList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(categoryList);
     }
 
     // Belirli bir kategorinin detaylarını getirir.
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Optional<Category>> findById(Long categoryId){
-        return ResponseEntity.ok(categoryService.findById(categoryId));
+    public ResponseEntity<?> findById(Long categoryId){
+        Optional<Category> category = categoryService.findById(categoryId);
+        if (category.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(category);
     }
 
     // Yeni bir kategori oluşturur.
@@ -56,12 +62,17 @@ public class CategoryController {
 //        return ResponseEntity.ok(categoryService.updateById(categoryId));
 //    }
 
+
+
+
+
+
     // Belirli bir kategoriyi siler.
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<?> deleteById(Long categoryId){
         try{
             categoryService.deleteById(categoryId);
-            return ResponseEntity.ok("Kategori silindi.");
+            return ResponseEntity.status(HttpStatus.OK).body(categoryId+" id numaralı kategori başarıyla silindi.");
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
         }

@@ -22,14 +22,22 @@ public class UserController {
 
     // Tüm kullanıcıları listeler.
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<?> findAll() {
+        List<User> userList = userService.findAll();
+        if (userList == null || userList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(userList);
     }
 
     // Belirli bir kullanıcının detaylarını getirir.
     @GetMapping("/{userId}")
-    public ResponseEntity<Optional<User>> findById(Long userId){
-        return ResponseEntity.ok(userService.findById(userId));
+    public ResponseEntity<?> findById(Long userId) {
+        Optional<User> user = userService.findById(userId);
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı");
+        }
+        return ResponseEntity.ok(user);
     }
 
     // Yeni bir kullanıcı oluşturur.
@@ -39,20 +47,35 @@ public class UserController {
             userService.save(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body("Kullanıcı başarıyla oluşturuldu.");
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: "+e.getMessage());
         }
     }
 
+
+
+
+
     // Belirli bir kullanıcının bilgilerini günceller.
-//    @PutMapping("/{userId}")
-//    public ResponseEntity<Users> updateById(Long userId){
-//        return ResponseEntity.ok(usersService.updateById(userId));
-//    }
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updateById(Long userId){
+        try{
+            Optional<User> user = userService.findById(userId);
+            ResponseEntity.status(HttpStatus.FOUND).body("Kullanıcı bulundu: "+user.get().getFirstName()+" "+user.get().getLastName());
+            return ResponseEntity.ok(userService.updateById(user));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Kullanıcı bulunamadı! "+e.getMessage());
+        }
+    }
 
     // Belirli bir kullanıcıyı siler.
     @DeleteMapping("/{userId}")
-    public void deleteById(Long userId){
-        userService.deleteById(userId);
+    public ResponseEntity<?> deleteById(Long userId){
+        try{
+            userService.deleteById(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(userId+" id numaralı kullanıcı başarıyla silindi.");
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: "+e.getMessage());
+        }
     }
 
 }

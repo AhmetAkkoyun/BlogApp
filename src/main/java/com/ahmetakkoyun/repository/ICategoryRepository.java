@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
 
 
-//    Category updateCategoryById(Long id);
+
 
 }
