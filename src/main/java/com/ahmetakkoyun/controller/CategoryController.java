@@ -76,4 +76,9 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
         }
     }
+
+    // Kategorileri isme göre arama seçeneği (name parametresi ile).
+    public ResponseEntity<Category> findByName(String categoryName) {
+        return  ResponseEntity.ok(categoryService.findByName(categoryName));
+    }
 }

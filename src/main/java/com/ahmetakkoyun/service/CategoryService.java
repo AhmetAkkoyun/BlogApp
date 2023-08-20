@@ -40,4 +40,8 @@ public class CategoryService {
         categoryRepository.deleteById(categoryId);
     }
 
+    public Category findByName(String categoryName) {
+        return  categoryRepository.findByName(categoryName);
+    }
+
 }

@@ -24,4 +24,16 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
     ,nativeQuery = true)
     List<Post> getPostsByCategoryName(@Param("x") String categoryName);
 
+    List<Post> getPostsByOrderByPublishedAt();
+
+    List<Post> getPostsByOrderByPublishedAtDesc();
+
+    @Query(
+            value = "SELECT * FROM posts p " +
+                    "JOIN categories c ON c.id = p.categoryId " +
+                    "WHERE c.id IN :x"
+            ,nativeQuery = true)
+    List<Post> findByCategoryIdListContaining(@Param("x") List<Long> idList);
+
+    List<Post> getPostsByUserId(Long userId);
 }

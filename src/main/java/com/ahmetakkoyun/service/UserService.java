@@ -4,6 +4,7 @@ import com.ahmetakkoyun.dto.request.UserSaveRequestDto;
 import com.ahmetakkoyun.dto.request.UserUpdateRequestDto;
 import com.ahmetakkoyun.mapper.IUserMapper;
 import com.ahmetakkoyun.repository.IUserRepository;
+import com.ahmetakkoyun.repository.entity.Post;
 import com.ahmetakkoyun.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
