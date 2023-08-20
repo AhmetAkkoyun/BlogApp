@@ -8,6 +8,7 @@ import com.ahmetakkoyun.dto.request.PostSaveRequestDto;
 import com.ahmetakkoyun.repository.entity.Post;
 import com.ahmetakkoyun.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +35,12 @@ public class PostController {
 
     // Yeni bir yazı oluşturur.
     @PostMapping
-    public ResponseEntity<Post> save (@RequestBody PostSaveRequestDto dto){
-        return ResponseEntity.ok(postService.save(dto));
+    public ResponseEntity<?> save (@RequestBody PostSaveRequestDto dto){
+        try {
+            return ResponseEntity.ok(postService.save(dto));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
+        }
     }
 
     // Belirli bir yazının bilgilerini günceller.

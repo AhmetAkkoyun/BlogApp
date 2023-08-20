@@ -25,8 +25,8 @@ public class UserService {
     }
 
     public User save(UserSaveRequestDto dto) {
-        User newUser = IUserMapper.INSTANCE.toUser(dto);
-        return userRepository.save(newUser);
+        User user = IUserMapper.INSTANCE.toUser(dto);
+        return userRepository.save(user);
     }
 
 //    public Users updateById(Long userId){

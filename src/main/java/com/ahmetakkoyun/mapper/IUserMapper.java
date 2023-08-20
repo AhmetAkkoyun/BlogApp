@@ -14,9 +14,10 @@ public interface IUserMapper {
 
     IUserMapper INSTANCE = Mappers.getMapper(IUserMapper.class);
 
-    UserInfoResponseDto toUserResponseDto(User user);
-
     User toUser(UserSaveRequestDto dto);
+
+
+    UserInfoResponseDto toUserResponseDto(User user);
 
     List<UserInfoResponseDto> toUserResponseDtos(List<User> userList);
 

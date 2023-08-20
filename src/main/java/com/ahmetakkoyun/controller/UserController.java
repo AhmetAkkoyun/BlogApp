@@ -4,6 +4,7 @@ import com.ahmetakkoyun.dto.request.UserSaveRequestDto;
 import com.ahmetakkoyun.repository.entity.User;
 import com.ahmetakkoyun.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +34,13 @@ public class UserController {
 
     // Yeni bir kullanıcı oluşturur.
     @PostMapping
-    public ResponseEntity<User> save (@RequestBody UserSaveRequestDto dto){
-        return ResponseEntity.ok(userService.save(dto));
+    public ResponseEntity<?> save (@RequestBody UserSaveRequestDto dto){
+        try{
+            userService.save(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Kullanıcı başarıyla oluşturuldu.");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Bir hata oluştu: " + e.getMessage());
+        }
     }
 
     // Belirli bir kullanıcının bilgilerini günceller.

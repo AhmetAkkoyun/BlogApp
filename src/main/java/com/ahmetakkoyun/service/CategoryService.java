@@ -1,5 +1,6 @@
 package com.ahmetakkoyun.service;
 
+import com.ahmetakkoyun.dto.request.CategorySaveRequestDto;
 import com.ahmetakkoyun.mapper.ICategoryMapper;
 import com.ahmetakkoyun.repository.ICategoryRepository;
 import com.ahmetakkoyun.repository.entity.Category;
@@ -23,7 +24,7 @@ public class CategoryService {
         return categoryRepository.findById(categoryId);
     }
 
-    public Category save (Category category) {
+    public Category save (CategorySaveRequestDto category) {
         Category newCategory = ICategoryMapper.INSTANCE.toCategory(category);
         return categoryRepository.save(newCategory);
     }
