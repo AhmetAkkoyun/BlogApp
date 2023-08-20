@@ -36,4 +36,5 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
     List<Post> findByCategoryIdListContaining(@Param("x") List<Long> idList);
 
     List<Post> getPostsByUserId(Long userId);
+
 }
